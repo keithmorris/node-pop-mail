@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "dateformat": "^1.0.8",
+    "mailparser": "^0.4.6",
+    "poplib": "^0.1.7"
+  },
+  "name": "node-pop-mail",
+  "description": "Example NodeJS app to connect to a POP3 mail server.",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://keithmorris@github.com/keithmorris/node-pop-mail.git"
+  },
+  "author": "Keith Morris",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/keithmorris/node-pop-mail/issues"
+  },
+  "homepage": "https://github.com/keithmorris/node-pop-mail"
+}
