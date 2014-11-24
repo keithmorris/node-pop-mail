@@ -1,22 +1,18 @@
+"use strict";
 var POP3Client = require('poplib'),
 	MailParser = require('mailparser').MailParser,
 	dateFormat = require('dateformat');
 
-var port     = 995,
-	host     = 'pop.gmail.com',
-	username = 'recent:testuser@gmail.com', // Change this
-	password = 'YourPasswordHere'; // Change this
+var serverOptions = require('./options').server,
+	clientOptions = require('./options').client;
+
 
 var totalMessages  = 0,
 	currentMessage = 0;
 
-var client = new POP3Client(port, host, {
-	tlserrs  : false,
-	enabletls: true,
-	debug    : false
-});
+var client = new POP3Client(serverOptions.port, serverOptions.host, clientOptions);
 
-function handleMailData(mailObj){
+function handleMailData(mailObj) {
 	displayMail(mailObj);
 	getNextMessage();
 }
@@ -24,7 +20,7 @@ function handleMailData(mailObj){
 function displayMail(mailObj) {
 	console.log("Date:", dateFormat(mailObj.date, 'fullDate'));
 	console.log("From:", mailObj.from[0].address); // [{address:'sender@example.com',name:'Sender Name'}]
-	console.log("Subject:", mailObj.subject); 
+	console.log("Subject:", mailObj.subject);
 	//console.log("Text body:", mail_object.text); // How are you today?
 	console.log('------------------------------------------------------------------------------------------');
 }
@@ -40,14 +36,17 @@ var getNextMessage = function () {
 };
 
 client.on("error", function (err) {
-	if (err.errno === 111) console.log("Unable to connect to server");
-	else console.log("Server error occurred");
+	if (err.errno === 111) {
+		console.log("Unable to connect to server");
+	} else {
+		console.log("Server error occurred");
+	}
 	console.log(err);
 });
 
 client.on("connect", function () {
 	console.log("CONNECT success");
-	client.login('recent:standupbass@gmail.com', password);
+	client.login(serverOptions.username, serverOptions.password);
 });
 
 client.on("invalid-state", function (cmd) {
